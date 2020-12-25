@@ -17,5 +17,32 @@ void setup()
 
 void loop()
 {
-  
+  if(digitalRead(BUTTON))
+  {
+    if(!enabled)
+    {
+      enabled = true;
+    }
+    else if(triggered)
+    {
+      triggered = false;
+      enabled = false;
+      noTone(BUZZER);
+    }
+    else if(enabled)
+    {
+      enabled = false;
+    }
+
+    while(digitalRead(BUTTON));
+  }
+
+  if(analogRead(LDR) < MIN_LIGHT_LEVEL)
+  {
+    if(enabled && !triggered)
+    {
+      triggered = true;
+      tone(BUZZER, FREQUENCY);
+    }
+  }
 }
